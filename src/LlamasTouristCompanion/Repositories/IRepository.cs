@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LlamasTouristCompanion.Repositories
 {
-    interface IRepository<TEntity, in TPrimaryKey> : IDisposable where TEntity : class
+    public interface IRepository<TEntity, in TPrimaryKey> : IDisposable where TEntity : class
     {
         Task<List<TEntity>> GetAll();
 

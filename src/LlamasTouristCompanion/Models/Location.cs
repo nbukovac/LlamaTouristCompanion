@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LlamasTouristCompanion.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,13 @@ namespace LlamasTouristCompanion.Models
         public Location()
         {
             
+        }
+
+        public Location(AddLocationViewModel model)
+        {
+            LocationId = Guid.NewGuid();
+            Latitude = model.Latitude;
+            Longitude = model.Longitude;
         }
     }
 }

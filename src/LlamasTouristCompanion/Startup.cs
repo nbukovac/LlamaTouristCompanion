@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using LlamasTouristCompanion.Data;
 using LlamasTouristCompanion.Models;
 using LlamasTouristCompanion.Services;
+using LlamasTouristCompanion.Repositories;
+using LlamasTouristCompanion.Interfaces;
 
 namespace LlamasTouristCompanion
 {
@@ -49,6 +51,10 @@ namespace LlamasTouristCompanion
 
             services.AddDbContext<TouristDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddTransient<IRepository<Location, Guid>, LocationRepository>();
+            services.AddTransient<IRepository<Apartment, Guid>, ApartmentRepository>();
+            services.AddTransient<ILocationService, LocationService>();
 
             services.AddMvc();
 
