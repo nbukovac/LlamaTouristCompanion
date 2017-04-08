@@ -45,7 +45,6 @@ namespace LlamasTouristCompanion.Repositories {
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
         

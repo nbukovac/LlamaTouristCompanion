@@ -8,9 +8,10 @@ using LlamasTouristCompanion.Models;
 namespace LlamasTouristCompanion.Migrations
 {
     [DbContext(typeof(TouristDbContext))]
-    partial class TouristDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170408142904_migracija3")]
+    partial class migracija3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.3")

@@ -18,5 +18,10 @@ namespace LlamasTouristCompanion.ViewModels
             Latitude = latitude;
             Longitude = longitude;
         }
+
+        public AddLocationViewModel()
+        {
+
+        }
     }
 }
