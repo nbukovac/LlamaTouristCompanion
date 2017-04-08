@@ -56,9 +56,17 @@ namespace LlamasTouristCompanion
             services.AddTransient<IRepository<Apartment, Guid>, ApartmentRepository>();
             services.AddTransient<IRepository<Event, Guid>, EventRepository>();
             services.AddTransient<IRepository<Info, Guid>, InfoRepository>();
+            services.AddTransient<IRepository<BotCache, Guid>, BotCacheRepository>();
+            services.AddTransient<IRepository<Owner, Guid>, OwnerRepository>();
 
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IInfoService, InfoService>();
             services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IBotCacheService, BotCacheService>();
+            services.AddTransient<IOwnerService, OwnerService>();
+            services.AddTransient<IApartmentService, ApartmentService>();
+
+
 
             services.AddMvc();
 

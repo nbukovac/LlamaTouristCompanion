@@ -14,11 +14,16 @@ namespace LlamasTouristCompanion.Services
 
         private readonly IRepository<BotCache, Guid> _botCacheRepository;
         private readonly IApartmentService _apartmentService;
+        private readonly IInfoService _infoService;
+        private readonly IEventService _eventService;
 
-        public BotCacheService(IRepository<BotCache, Guid> botCacheRepository, IApartmentService apartmentService)
+        public BotCacheService(IRepository<BotCache, Guid> botCacheRepository, 
+            IApartmentService apartmentService, IInfoService infoService, IEventService eventService)
         {
             _botCacheRepository = botCacheRepository;
             _apartmentService = apartmentService;
+            _infoService = infoService;
+            _eventService = eventService;
         }
 
         public void Add(BotCache botCache)
@@ -70,6 +75,51 @@ namespace LlamasTouristCompanion.Services
         public void Update(BotCache botCache)
         {
             _botCacheRepository.Update(botCache);
+        }
+
+        public async Task FillBotAsync()
+        {
+            BotCache botCache = null;
+            List<BotCache> inCache = null;
+
+            var apartments = await _apartmentService.GetAll();
+
+            //var infos = await _infoService.GetAll();
+            //var events = await _eventService.GetAll();
+
+            foreach (var apartment in apartments)
+            {
+                var split = apartment.Utilities.Split('&');
+
+                foreach (var utility in split)
+                {
+                    var utilitySplit = utility.Split('=');
+                    botCache = new BotCache(utilitySplit[0], utilitySplit[1],
+                        apartment.ApartmentId);
+
+                    inCache = await (_botCacheRepository.GetAllWhere(
+                        m => m.ApartmentId == apartment.ApartmentId 
+                        && m.Keyword == utilitySplit[0]));
+
+                    if (!inCache.Any())
+                    {
+                        _botCacheRepository.Insert(botCache);
+                    }
+                }
+
+                var inTime = apartment.CheckIn.TimeOfDay.ToString();
+                var outTime = apartment.CheckOut.TimeOfDay.ToString();
+
+                botCache = new BotCache("check", inTime + "&" + outTime, apartment.ApartmentId);
+
+                inCache = await _botCacheRepository.GetAllWhere(m => m.ApartmentId == apartment.ApartmentId
+                    && m.Keyword == "check");
+
+                if (!inCache.Any())
+                {
+                    _botCacheRepository.Insert(botCache);
+                }
+            }
         }
     }
 }

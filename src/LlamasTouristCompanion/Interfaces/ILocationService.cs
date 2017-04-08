@@ -17,6 +17,6 @@ namespace LlamasTouristCompanion.Interfaces
 
         Task<List<Apartment>> GetNearbyApartments(string locationId, double radius);
         Task<List<Event>> GetNearbyEvents(string locationId, double radius);
-        Task<List<Info>> GetNearbyInfo(string locationId, double radius);
+        Task<List<Info>> GetNearbyInfoAsync(string locationId, double radius);
     }
 }

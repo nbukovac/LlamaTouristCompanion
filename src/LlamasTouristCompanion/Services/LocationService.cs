@@ -11,6 +11,8 @@ namespace LlamasTouristCompanion.Services
 {
     public class LocationService : ILocationService
     {
+        private const double DegreeToKm = 111.12;
+
 
         private readonly IRepository<Location, Guid> _locationRepository;
         private readonly IRepository<Apartment, Guid> _apartmentRepository;
@@ -48,19 +50,67 @@ namespace LlamasTouristCompanion.Services
             return _locationRepository.GetById(Guid.Parse(id));
         }
 
-        public Task<List<Apartment>> GetNearbyApartments(string locationId, double radius)
+        public async Task<List<Apartment>> GetNearbyApartments(string locationId, double radius)
         {
-            return _apartmentRepository.GetAllWhere(m => m.LocationId.ToString() == locationId);
+            var location = GetById(locationId);
+            List<Apartment> apartments = await _apartmentRepository.GetAll();
+            List<Apartment> nearby = new List<Apartment>();
+
+            foreach (var apartment in apartments)
+            {
+                var apartmentLocation = _locationRepository.GetById(apartment.LocationId);
+                var inRadius = Math.Pow((location.Latitude - apartmentLocation.Latitude) * DegreeToKm, 2)
+                    + Math.Pow((location.Longitude - apartmentLocation.Latitude) * DegreeToKm, 2) < Math.Pow(radius, 2);
+
+                if (inRadius)
+                {
+                    nearby.Add(apartment);
+                }
+            }
+
+            return nearby;
         }
 
-        public Task<List<Event>> GetNearbyEvents(string locationId, double radius)
+        public async Task<List<Event>> GetNearbyEvents(string locationId, double radius)
         {
-            return _eventsRepository.GetAllWhere(m => m.LocationId.ToString() == locationId);
+            var location = GetById(locationId);
+            List<Event> events = await _eventsRepository.GetAll();
+            List<Event> nearby = new List<Event>();
+
+            foreach (var e in events)
+            {
+                var eventLocation = _locationRepository.GetById(e.LocationId);
+                var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
+                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(radius, 2);
+
+                if (inRadius)
+                {
+                    nearby.Add(e);
+                }
+            }
+
+            return nearby;
         }
 
-        public Task<List<Info>> GetNearbyInfo(string locationId, double radius)
+        public async Task<List<Info>> GetNearbyInfoAsync(string locationId, double radius)
         {
-            return _infoRepository.GetAllWhere(m => m.LocationId.ToString() == locationId);
+            var location = GetById(locationId);
+            List<Info> infos = await _infoRepository.GetAll();
+            List<Info> nearby = new List<Info>();
+
+            foreach (var info in infos)
+            {
+                var eventLocation = _locationRepository.GetById(info.LocationId);
+                var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
+                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(radius, 2);
+
+                if (inRadius)
+                {
+                    nearby.Add(info);
+                }
+            }
+
+            return nearby;
         }
 
         public void Update(Location location)

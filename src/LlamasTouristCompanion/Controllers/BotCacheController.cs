@@ -23,10 +23,16 @@ namespace LlamasTouristCompanion.Controllers
             return await _botCacheService.GetAll();
         }
 
-        [HttpGet("{token}", Name = "GetAnswers")]
+        [HttpGet("{tokens}", Name = "GetAnswers")]
         public async Task<List<BotCache>> GetAnswersAsync(BotCacheTokens tokens)
         {
             return await _botCacheService.FilterTokensAsync(tokens.Tokens, tokens.ApartmentId);
+        }
+
+        [HttpGet(Name = "FillMe")]
+        public IActionResult FillMe()
+        {
+            return Ok();
         }
     }
 }

@@ -17,5 +17,7 @@ namespace LlamasTouristCompanion.Interfaces
 
         Task<List<BotCache>> Filter(Expression<Func<BotCache, bool>> predicate);
         Task<List<BotCache>> FilterTokensAsync(List<string> tokens, string apartmentId);
+
+        Task FillBotAsync();
     }
 }
