@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LlamasTouristCompanion.Interfaces;
 using LlamasTouristCompanion.ViewModels;
+using LlamasTouristCompanion.Models;
 
 namespace LlamasTouristCompanion.Controllers
 {
@@ -44,6 +45,32 @@ namespace LlamasTouristCompanion.Controllers
 
             ViewBag.Locations = await _locationService.GetAll();
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            ViewBag.Locations = await _locationService.GetAll();
+            return View(_eventService.GetById(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAsync(Event model)
+        {
+            if (ModelState.IsValid)
+            {
+                _eventService.Update(model);
+                return RedirectToAction("Index");
+            }
+
+            ViewBag.Locations = await _locationService.GetAll();
+            return View(model);
+        }
+
+        public IActionResult Delete(string id)
+        {
+            _eventService.Delete(id);
+            return RedirectToAction("Index");
         }
 
     }
