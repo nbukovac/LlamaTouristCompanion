@@ -15,17 +15,20 @@ namespace LlamasTouristCompanion.Controllers
 
         private readonly IOwnerService _ownerService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IApartmentService _apartmentService;
 
-        public OwnerController(IOwnerService ownerService, UserManager<ApplicationUser> userManager)
+        public OwnerController(IOwnerService ownerService, UserManager<ApplicationUser> userManager,
+            IApartmentService apartmentService)
         {
             _ownerService = ownerService;
             _userManager = userManager;
+            _apartmentService = apartmentService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string ownerId)
         {
-            return View();
+            return View(await _ownerService.GetOwnersApartments(ownerId));
         }
 
         [HttpGet]
@@ -44,6 +47,24 @@ namespace LlamasTouristCompanion.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            return View(_ownerService.GetOwnerById(id));
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Owner owner)
+        {
+            if (ModelState.IsValid)
+            {
+                _ownerService.UpdateOwner(owner);
+                return RedirectToAction("Index");
+            }
+
+            return View(owner);
         }
 
         private async Task<Guid> GetActiveUserId()
