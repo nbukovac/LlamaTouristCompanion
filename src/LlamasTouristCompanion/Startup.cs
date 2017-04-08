@@ -54,7 +54,9 @@ namespace LlamasTouristCompanion
 
             services.AddTransient<IRepository<Location, Guid>, LocationRepository>();
             services.AddTransient<IRepository<Apartment, Guid>, ApartmentRepository>();
+            services.AddTransient<IRepository<Event, Guid>, EventRepository>();
             services.AddTransient<ILocationService, LocationService>();
+            services.AddTransient<IEventService, EventService>();
 
             services.AddMvc();
 

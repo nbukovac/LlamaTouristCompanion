@@ -17,12 +17,12 @@ namespace LlamasTouristCompanion.Services
 
         public InfoService(IRepository<Info, Guid> infoRepository)
         {
-            infoRepository = _infoRepository;
+            _infoRepository = infoRepository;
         }
 
         public void Add(AddInfoViewModel info)
         {
-            
+            _infoRepository
         }
 
         public void Delete(string id)
