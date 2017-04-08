@@ -22,32 +22,32 @@ namespace LlamasTouristCompanion.Services
 
         public void Add(AddInfoViewModel info)
         {
-            _infoRepository
+            _infoRepository.Insert(new Info(info));
         }
 
         public void Delete(string id)
         {
-            throw new NotImplementedException();
+            _infoRepository.Delete(Guid.Parse(id));
         }
 
         public Task<List<Info>> Filter(Expression<Func<Info, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _infoRepository.GetAllWhere(predicate);
         }
 
         public Task<List<Info>> GetAll()
         {
-            throw new NotImplementedException();
+            return _infoRepository.GetAll();
         }
 
         public Info GetById(string id)
         {
-            throw new NotImplementedException();
+            return _infoRepository.GetById(Guid.Parse(id));
         }
 
         public void Update(Info info)
         {
-            throw new NotImplementedException();
+            _infoRepository.Update(info);
         }
     }
 }
