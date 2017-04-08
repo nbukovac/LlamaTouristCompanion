@@ -22,7 +22,7 @@ namespace LlamasTouristCompanion.Models
         public virtual Apartment Apartment { get; set; }
 
         public Reservation(DateTime startDate, DateTime endDate, Guid apartmentId, 
-            bool cacheAdvance, string )
+            bool cacheAdvance, string guestId)
         {
             ReservationId = Guid.NewGuid();
             StartDate = startDate;
