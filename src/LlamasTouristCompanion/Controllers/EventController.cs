@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using LlamasTouristCompanion.Interfaces;
 using LlamasTouristCompanion.ViewModels;
 using LlamasTouristCompanion.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LlamasTouristCompanion.Controllers
 {
@@ -30,7 +31,7 @@ namespace LlamasTouristCompanion.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Locations = await _locationService.GetAll();
+            ViewBag.Locations = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View();
         }
 
@@ -43,14 +44,14 @@ namespace LlamasTouristCompanion.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Locations = await _locationService.GetAll();
+            ViewBag.Locations = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            ViewBag.Locations = await _locationService.GetAll();
+            ViewBag.Locations = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View(_eventService.GetById(id));
         }
 
@@ -63,7 +64,7 @@ namespace LlamasTouristCompanion.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.Locations = await _locationService.GetAll();
+            ViewBag.Locations = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View(model);
         }
 

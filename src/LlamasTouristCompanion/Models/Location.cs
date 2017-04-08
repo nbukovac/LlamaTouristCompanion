@@ -14,12 +14,15 @@ namespace LlamasTouristCompanion.Models
         public double Latitude { get; set; }
         [Required]
         public double Longitude { get; set; }
+        [Required]
+        public string Address { get; set; }
 
-        public Location(double latitude, double longitude)
+        public Location(double latitude, double longitude, string address)
         {
             LocationId = Guid.NewGuid();
             Latitude = latitude;
             Longitude = longitude;
+            Address = address;
         }
 
         public Location()
@@ -32,6 +35,7 @@ namespace LlamasTouristCompanion.Models
             LocationId = Guid.NewGuid();
             Latitude = model.Latitude;
             Longitude = model.Longitude;
+            Address = model.Address;
         }
     }
 }
