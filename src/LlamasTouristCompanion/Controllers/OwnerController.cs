@@ -7,9 +7,11 @@ using LlamasTouristCompanion.Interfaces;
 using LlamasTouristCompanion.Models;
 using Microsoft.AspNetCore.Identity;
 using LlamasTouristCompanion.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LlamasTouristCompanion.Controllers
 {
+    [Authorize]
     public class OwnerController : Controller
     {
 
