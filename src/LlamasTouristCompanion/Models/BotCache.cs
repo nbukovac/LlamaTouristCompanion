@@ -21,13 +21,13 @@ namespace LlamasTouristCompanion.Models
 
         public BotCache(string keyword, string answer, Guid apartmentId)
         {
-            EventId = Guid.NewGuid();
+            BotCacheId = Guid.NewGuid();
             Keyword = keyword;
             Answer = answer;
             ApartmentId = apartmentId;
         }
 
-        public Event()
+        public BotCache()
         {
             
         }

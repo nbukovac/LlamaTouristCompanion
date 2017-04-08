@@ -1,4 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using LlamasTouristCompanion.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LlamasTouristCompanion.Repositories {
 
@@ -11,7 +17,7 @@ namespace LlamasTouristCompanion.Repositories {
         }
 
         public Task<List<BotCache>> GetAll() {
-            return _dbContext.Infos.ToListAsync();
+            return _dbContext.BotCaches.ToListAsync();
         }
 
         public BotCache GetById(Guid id) {
@@ -27,14 +33,21 @@ namespace LlamasTouristCompanion.Repositories {
             _dbContext.SaveChanges();
         }
 
-        public void Update(Info entity) {
+        public void Update(BotCache entity) {
             _dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.SaveChanges();
         }
 
         public void Delete(Guid id){
-            _dbContext.Infos.Remove(GetById(id));
+            _dbContext.BotCaches.Remove(GetById(id));
             _dbContext.SaveChanges();
         }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
+
+        
     }
 }
