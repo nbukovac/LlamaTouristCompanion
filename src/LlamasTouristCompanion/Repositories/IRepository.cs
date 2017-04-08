@@ -5,12 +5,18 @@ using System.Threading.Tasks;
 
 namespace LlamasTouristCompanion.Repositories
 {
-    public interface IRepository<T>
+    interface IRepository<TEntity, in TPrimaryKey> : IDisposable where TEntity : class
     {
-        T Get<TKey>(TKey id);
-        IQueryable<T> GetAll();
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
+        Task<List<TEntity>> GetAll();
+
+        Task<TEntity> GetById(TPrimaryKey id);
+
+        Task<List<TEntity>> GetAllWhere(Expression<Func<TEntity, bool>> predicate);
+
+        void Insert(TEntity entity);
+
+        void Update(TEntity entity);
+
+        void Delete(TPrimaryKey id);
     }
 }
