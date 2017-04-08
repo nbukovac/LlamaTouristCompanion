@@ -26,7 +26,8 @@ namespace LlamasTouristCompanion.Models
         public virtual Location Location { get; set; }
         public virtual Owner Owner { get; set; }
 
-        public Apartment(string name, Guid locationId, string images, string address, string utilities, DateTime checkIn, DateTime checkOut, Guid ownerId)
+        public Apartment(string name, Guid locationId, string images, string address, string utilities,
+            DateTime checkIn, DateTime checkOut, Guid ownerId)
         {
             ApartmentId = Guid.NewGuid();
             Name = name;

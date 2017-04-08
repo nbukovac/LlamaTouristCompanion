@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace LlamasTouristCompanion.Models
 {
@@ -17,5 +14,19 @@ namespace LlamasTouristCompanion.Models
         public double Amount { get; set; }
         [Required]
         public Guid ApartmentId { get; set; }
+
+        public Price()
+        {
+
+        }
+
+        public Price(DateTime startDate, DateTime endDate, double amount, Guid apartmentId)
+        {
+            PriceId = Guid.NewGuid();
+            StartDate = startDate;
+            EndDate = endDate;
+            Amount = amount;
+            ApartmentId = apartmentId;
+        }
     }
 }
