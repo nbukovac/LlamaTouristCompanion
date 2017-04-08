@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Location>
+﻿﻿@model IEnumerable<Location>
 
 @{
     ViewBag.Title = "Locations";
@@ -9,17 +9,6 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-
-<head>
-    <style>
-        table#locationsTable {
-            width: 100%;
-            background: rgba(212, 231, 255, 0.80);
-            /*text-align: center;*/
-            color: black;
-        }
-    </style>
-</head>
 
 <table class="table" id="locationsTable">
     <tr>
@@ -34,7 +23,7 @@
         </th>
     </tr>
 
-   
+
     @foreach (var item in Model)
     {
         <tr>
@@ -50,7 +39,6 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.LocationId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.LocationId }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.LocationId })
             </td>
         </tr>
