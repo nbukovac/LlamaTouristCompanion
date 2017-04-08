@@ -1,16 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{39700F23-DE07-4BC9-891E-E0DBD56685AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B572CAD6-F2EB-4CAD-B0BC-A74560E8BE73}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "LlamasTouristCompanion", "src\LlamasTouristCompanion\LlamasTouristCompanion.xproj", "{520CBC77-B16D-44C2-9FC2-CBFD360D194B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LlamasTouristCompanion", "src\LlamasTouristCompanion\LlamasTouristCompanion.csproj", "{520CBC77-B16D-44C2-9FC2-CBFD360D194B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

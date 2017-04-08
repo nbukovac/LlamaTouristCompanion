@@ -12,7 +12,7 @@ namespace LlamasTouristCompanion.Models
         public TouristDbContext(DbContextOptions<TouristDbContext> options) : base(options)
         {   
         }
-
+        public TouristDbContext() : base() { }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
