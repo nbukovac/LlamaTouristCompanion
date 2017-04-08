@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LlamasTouristCompanion.Interfaces;
 using LlamasTouristCompanion.ViewModels;
+using LlamasTouristCompanion.Models;
 
 namespace LlamasTouristCompanion.Controllers
 {
@@ -40,6 +38,31 @@ namespace LlamasTouristCompanion.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(string id)
+        {
+            return View(_locationService.GetById(id));
+        }
+    
+        [HttpPost]
+        public IActionResult Edit(Location location)
+        {
+            if (ModelState.IsValid)
+            {
+                _locationService.Update(location);
+                return RedirectToAction("Index");
+            }
+
+            return View(location);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            _locationService.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }
