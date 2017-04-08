@@ -33,5 +33,6 @@ namespace LlamasTouristCompanion.Models
         public DbSet<Location> Locations { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<BotCache> BotCaches {get; set;}
     }
 }
