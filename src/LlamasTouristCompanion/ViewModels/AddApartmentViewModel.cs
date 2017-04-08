@@ -31,5 +31,10 @@ namespace LlamasTouristCompanion.ViewModels
             CheckOut = checkOut;
             Images = images;
         }
+
+        public AddApartmentViewModel()
+        {
+
+        }
     }
 }

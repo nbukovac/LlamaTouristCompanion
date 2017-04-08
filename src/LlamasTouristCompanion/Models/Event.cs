@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LlamasTouristCompanion.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -30,6 +31,14 @@ namespace LlamasTouristCompanion.Models
         public Event()
         {
             
+        }
+
+        public Event(AddEventViewModel model)
+        {
+            EventId = Guid.NewGuid();
+            Date = model.Date;
+            Description = model.Description;
+            LocationId = model.LocationId;
         }
     }
 }

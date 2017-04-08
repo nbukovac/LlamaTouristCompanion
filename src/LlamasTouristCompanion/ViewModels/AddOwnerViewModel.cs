@@ -37,5 +37,10 @@ namespace LlamasTouristCompanion.ViewModels
             InstagramUrl = inst;
             YoutubeUrl = tube;
         }
+
+        public AddOwnerViewModel()
+        {
+
+        }
     }
 }
