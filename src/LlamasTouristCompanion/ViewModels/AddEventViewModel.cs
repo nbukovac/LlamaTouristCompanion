@@ -23,11 +23,11 @@ namespace LlamasTouristCompanion.ViewModels
 
         }
 
-        public AddEventViewModel(DateTime date, string desc, string locationId, string name)
+        public AddEventViewModel(DateTime date, string desc, Guid locationId, string name)
         {
             Date = date;
             Description = desc;
-            LocationId = Guid.Parse(locationId);
+            LocationId = locationId;
             Name = name;
         }
     }

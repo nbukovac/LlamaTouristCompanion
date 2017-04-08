@@ -18,6 +18,9 @@
             Id
         </th>
         <th>
+            Name
+        </th>
+        <th>
             Description
         </th>
         <th>
@@ -37,7 +40,13 @@
                 @Html.DisplayFor(modelItem => item.EventId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Location.LocationId)
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LocationId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)

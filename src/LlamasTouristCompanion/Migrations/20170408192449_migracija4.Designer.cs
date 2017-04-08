@@ -8,9 +8,10 @@ using LlamasTouristCompanion.Models;
 namespace LlamasTouristCompanion.Migrations
 {
     [DbContext(typeof(TouristDbContext))]
-    partial class TouristDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170408192449_migracija4")]
+    partial class migracija4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.3")
@@ -142,9 +143,6 @@ namespace LlamasTouristCompanion.Migrations
                 {
                     b.Property<Guid>("LocationId")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Address")
-                        .IsRequired();
 
                     b.Property<double>("Latitude");
 
