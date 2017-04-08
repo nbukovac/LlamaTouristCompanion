@@ -21,6 +21,11 @@ namespace LlamasTouristCompanion.Models
             // Add your customizations after calling base.OnModelCreating(builder);
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aspnet-LlamasTouristCompanion-3fe91d90-5ea8-4b23-93f3-73487c3a9cfc;Trusted_Connection=True;MultipleActiveResultSets=true");
+        }
+
         public DbSet<Apartment> Apartments { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Guest> Guests { get; set; }
