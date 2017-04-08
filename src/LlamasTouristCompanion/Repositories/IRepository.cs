@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace LlamasTouristCompanion.Repositories
@@ -9,7 +10,7 @@ namespace LlamasTouristCompanion.Repositories
     {
         Task<List<TEntity>> GetAll();
 
-        Task<TEntity> GetById(TPrimaryKey id);
+        TEntity GetById(TPrimaryKey id);
 
         Task<List<TEntity>> GetAllWhere(Expression<Func<TEntity, bool>> predicate);
 
