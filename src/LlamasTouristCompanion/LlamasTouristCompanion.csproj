@@ -59,4 +59,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\background.jpeg" />
+  </ItemGroup>
+
 </Project>
