@@ -11,10 +11,12 @@ namespace LlamasTouristCompanion.Controllers
     {
 
         private readonly IBotCacheService _botCacheService;
+        private readonly ILocationService _locationService;
         
-        public BotCacheController(IBotCacheService botCacheService)
+        public BotCacheController(IBotCacheService botCacheService, ILocationService locationService)
         {
             _botCacheService = botCacheService;
+            _locationService = locationService;
         }
 
         [HttpGet]
@@ -28,6 +30,8 @@ namespace LlamasTouristCompanion.Controllers
         {
             return await _botCacheService.FilterTokensAsync(tokens.Tokens, tokens.ApartmentId);
         }
+
+
 
         [HttpGet(Name = "FillMe")]
         public IActionResult FillMe()
