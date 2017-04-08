@@ -1,4 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 using LlamasTouristCompanion.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace LlamasTouristCompanion.Repositories {
 
@@ -33,8 +39,13 @@ namespace LlamasTouristCompanion.Repositories {
         }
 
         public void Delete(Guid id){
-            _dbContext.Apartments.Remove(GetById(id));
+            _dbContext.Locations.Remove(GetById(id));
             _dbContext.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
