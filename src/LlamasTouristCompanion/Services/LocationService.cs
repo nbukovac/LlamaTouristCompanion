@@ -14,12 +14,18 @@ namespace LlamasTouristCompanion.Services
 
         private readonly IRepository<Location, Guid> _locationRepository;
         private readonly IRepository<Apartment, Guid> _apartmentRepository;
+        private readonly IRepository<Event, Guid> _eventsRepository;
+        private readonly IRepository<Info, Guid> _infoRepository;
 
         public LocationService(IRepository<Location, Guid> locationRepository, 
-            IRepository<Apartment, Guid> apartmentRepository)
+            IRepository<Apartment, Guid> apartmentRepository, 
+            IRepository<Event, Guid> eventsRepository,
+            IRepository<Info, Guid> infoRepository)
         {
             _locationRepository = locationRepository;
             _apartmentRepository = apartmentRepository;
+            _eventsRepository = eventsRepository;
+            _infoRepository = infoRepository;
         }
 
         public void Add(AddLocationViewModel location)
@@ -49,12 +55,12 @@ namespace LlamasTouristCompanion.Services
 
         public Task<List<Event>> GetNearbyEvents(string locationId, double radius)
         {
-            throw new NotImplementedException();
+            return _eventsRepository.GetAllWhere(m => m.LocationId.ToString() == locationId);
         }
 
         public Task<List<Info>> GetNearbyInfo(string locationId, double radius)
         {
-            throw new NotImplementedException();
+            return _infoRepository.GetAllWhere(m => m.LocationId.ToString() == locationId);
         }
 
         public void Update(Location location)

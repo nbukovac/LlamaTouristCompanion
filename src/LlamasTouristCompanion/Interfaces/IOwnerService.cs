@@ -1,4 +1,5 @@
 ﻿using LlamasTouristCompanion.Models;
+using LlamasTouristCompanion.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace LlamasTouristCompanion.Interfaces
     {
         Task<List<Owner>> GetOwners();
         Owner GetOwnerById(string id);
-        void AddOwner(Owner owner);
+        void AddOwner(AddOwnerViewModel owner);
         void UpdateOwner(Owner owner);
         void DeleteOwner(string id);
 
