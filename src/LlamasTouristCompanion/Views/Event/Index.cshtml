@@ -1,1 +1,52 @@
 ﻿@model IEnumerable<Event>
+
+
+@{
+    ViewBag.Title = "Events";
+}
+
+<h2 style="color: cornflowerblue">Events</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table" id="eventsTable">
+    <tr>
+        <th></th>
+        <th>
+            Id
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            Date
+        </th>
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td></td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.LocationId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.EventId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
+            </td>
+        </tr>
+    }
+
+</table>
