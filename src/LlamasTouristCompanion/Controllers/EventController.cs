@@ -31,12 +31,12 @@ namespace LlamasTouristCompanion.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Locations = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
+            ViewBag.LocationId = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(AddEventViewModel model)
+        public async Task<IActionResult> Create(AddEventViewModel model)
         {
             if (ModelState.IsValid)
             {
