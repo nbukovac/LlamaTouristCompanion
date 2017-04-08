@@ -14,18 +14,15 @@ namespace LlamasTouristCompanion.Models
         [Required]
         public DateTime EndDate { get; set; }
         [Required]
-        public double Price { get; set; }
-        [Required]
         public Guid ApartmentId { get; set; }
 
         public virtual Apartment Apartment { get; set; }
 
-        public Reservation(DateTime startDate, DateTime endDate, double price, Guid apartmentId)
+        public Reservation(DateTime startDate, DateTime endDate, Guid apartmentId)
         {
             ReservationId = Guid.NewGuid();
             StartDate = startDate;
             EndDate = endDate;
-            Price = price;
             ApartmentId = apartmentId;
         }
 
