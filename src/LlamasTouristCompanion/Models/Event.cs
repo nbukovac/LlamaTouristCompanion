@@ -11,6 +11,8 @@ namespace LlamasTouristCompanion.Models
     {
         public Guid EventId { get; set; }
         [Required]
+        public string Name { get; set; }
+        [Required]
         public DateTime Date { get; set; }
         [Required]
         public string Description { get; set; }
@@ -20,12 +22,13 @@ namespace LlamasTouristCompanion.Models
         public virtual Location Location { get; set; }
 
 
-        public Event(DateTime date, string description, Guid locationId)
+        public Event(DateTime date, string description, Guid locationId, string name)
         {
             EventId = Guid.NewGuid();
             Date = date;
             Description = description;
             LocationId = locationId;
+            Name = name;
         }
 
         public Event()
@@ -39,6 +42,7 @@ namespace LlamasTouristCompanion.Models
             Date = model.Date;
             Description = model.Description;
             LocationId = model.LocationId;
+            Name = model.Name;
         }
     }
 }
