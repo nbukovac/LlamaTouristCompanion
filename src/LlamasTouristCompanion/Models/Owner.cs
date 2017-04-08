@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LlamasTouristCompanion.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -35,6 +36,19 @@ namespace LlamasTouristCompanion.Models
         public Owner()
         {
             
+        }
+
+        public Owner(AddOwnerViewModel model, Guid userId)
+        {
+            OwnerId = Guid.NewGuid();
+            Name = model.Name;
+            Phone = model.Phone;
+            Email = model.Email;
+            FacebookUrl = model.FacebookUrl;
+            TwitterUrl = model.TwitterUrl;
+            InstagramUrl = model.InstagramUrl;
+            YoutubeUrl = model.YoutubeUrl;
+            UserId = userId;
         }
 
         public Owner(string name, string phone, string email, string facebookUrl, string twitterUrl, string instagramUrl, string youtubeUrl, Guid userId)

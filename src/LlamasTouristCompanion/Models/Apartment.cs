@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LlamasTouristCompanion.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -43,6 +44,18 @@ namespace LlamasTouristCompanion.Models
         public Apartment()
         {
             
+        }
+
+        public Apartment(AddApartmentViewModel model, Guid ownerId)
+        {
+            ApartmentId = Guid.NewGuid();
+            Name = model.Name;
+            LocationId = model.LocationId;
+            Images = model.Images;
+            OwnerId = ownerId;
+            Utilities = model.Utilities;
+            CheckIn = model.CheckIn;
+            CheckOut = model.CheckOut;
         }
     }
 }

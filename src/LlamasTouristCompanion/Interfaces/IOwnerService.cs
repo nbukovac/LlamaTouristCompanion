@@ -12,11 +12,11 @@ namespace LlamasTouristCompanion.Interfaces
     {
         Task<List<Owner>> GetOwners();
         Owner GetOwnerById(string id);
-        void AddOwner(AddOwnerViewModel owner);
+        void AddOwner(AddOwnerViewModel owner, Guid userId);
         void UpdateOwner(Owner owner);
         void DeleteOwner(string id);
 
-        Owner GetOwnerByUserId(string userId);
+        Task<Owner> GetOwnerByUserIdAsync(string userId);
         Task<List<Apartment>> GetOwnersApartments(string id);
         Task<List<Owner>> Filter(Expression<Func<Owner, bool>> predicate);
     }

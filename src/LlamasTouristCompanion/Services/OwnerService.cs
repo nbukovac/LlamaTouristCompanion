@@ -6,57 +6,62 @@ using System.Threading.Tasks;
 using LlamasTouristCompanion.Models;
 using System.Linq.Expressions;
 using LlamasTouristCompanion.ViewModels;
+using LlamasTouristCompanion.Repositories;
 
 namespace LlamasTouristCompanion.Services
 {
     public class OwnerService : IOwnerService
     {
 
-        private readonly IOwnerService _ownerService;
+        private readonly IRepository<Owner, Guid> _ownerRepository;
+        private readonly IRepository<Apartment, Guid> _apartmentRepository;
 
-        public OwnerService(IOwnerService ownerService)
+        public OwnerService(IRepository<Owner, Guid> ownerRepository, IRepository<Apartment,
+            Guid> apartmentRepository)
         {
-            _ownerService = ownerService;
+            _ownerRepository = ownerRepository;
+            _apartmentRepository = apartmentRepository;
         }
 
-        public void AddOwner(AddOwnerViewModel owner)
+        public void AddOwner(AddOwnerViewModel owner, Guid userId)
         {
-            throw new NotImplementedE
+            _ownerRepository.Insert(new Owner(owner, userId));
         }
 
         public void DeleteOwner(string id)
         {
-            throw new NotImplementedException();
+            _ownerRepository.Delete(Guid.Parse(id));
         }
 
         public Task<List<Owner>> Filter(Expression<Func<Owner, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _ownerRepository.GetAllWhere(predicate);
         }
 
         public Owner GetOwnerById(string id)
         {
-            throw new NotImplementedException();
+            return _ownerRepository.GetById(Guid.Parse(id));
         }
 
-        public Owner GetOwnerByUserId(string userId)
+        public async Task<Owner> GetOwnerByUserIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            var owners = await _ownerRepository.GetAllWhere(m => m.UserId.ToString() == userId);
+            return owners.FirstOrDefault();
         }
 
         public Task<List<Owner>> GetOwners()
         {
-            throw new NotImplementedException();
+            return _ownerRepository.GetAll();
         }
 
         public Task<List<Apartment>> GetOwnersApartments(string id)
         {
-            throw new NotImplementedException();
+            return _apartmentRepository.GetAllWhere(m => m.OwnerId.ToString() == id);
         }
 
         public void UpdateOwner(Owner owner)
         {
-            throw new NotImplementedException();
+            _ownerRepository.Update(owner);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using LlamasTouristCompanion.Models;
+using LlamasTouristCompanion.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace LlamasTouristCompanion.Interfaces
     {
         Task<List<Apartment>> GetAll();
         Apartment GetById(string id);
-        void Add(Apartment apartment);
+        Task AddAsync(AddApartmentViewModel apartment, string userId);
         void Update(Apartment apartment);
         void Delete(string id);
 
