@@ -20,9 +20,9 @@ namespace LlamasTouristCompanion.Models
 
         public Guid UserId { get; set; }
 
-        public Guest(Guid guestId, string name, string identificationNumber, string idType, string phone, string email, Guid userId)
+        public Guest(string name, string identificationNumber, string idType, string phone, string email, Guid userId)
         {
-            GuestId = guestId;
+            GuestId = Guid.NewGuid();
             Name = name;
             IdentificationNumber = identificationNumber;
             IdType = idType;

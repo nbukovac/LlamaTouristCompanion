@@ -19,5 +19,19 @@ namespace LlamasTouristCompanion.Models
         public Guid ApartmentId { get; set; }
 
         public virtual Apartment Apartment { get; set; }
+
+        public Reservation(DateTime startDate, DateTime endDate, double price, Guid apartmentId)
+        {
+            ReservationId = Guid.NewGuid();
+            StartDate = startDate;
+            EndDate = endDate;
+            Price = price;
+            ApartmentId = apartmentId;
+        }
+
+        public Reservation()
+        {
+            
+        }
     }
 }

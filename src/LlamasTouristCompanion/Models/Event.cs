@@ -21,6 +21,7 @@ namespace LlamasTouristCompanion.Models
 
         public Event(DateTime date, string description, Guid locationId)
         {
+            EventId = Guid.NewGuid();
             Date = date;
             Description = description;
             LocationId = locationId;

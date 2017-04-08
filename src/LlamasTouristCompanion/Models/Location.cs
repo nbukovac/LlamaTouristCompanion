@@ -14,9 +14,9 @@ namespace LlamasTouristCompanion.Models
         [Required]
         public double Longitude { get; set; }
 
-        public Location(Guid locationId, double latitude, double longitude)
+        public Location(double latitude, double longitude)
         {
-            LocationId = locationId;
+            LocationId = Guid.NewGuid();
             Latitude = latitude;
             Longitude = longitude;
         }

@@ -37,9 +37,9 @@ namespace LlamasTouristCompanion.Models
             
         }
 
-        public Owner(Guid ownerId, string name, string phone, string email, string facebookUrl, string twitterUrl, string instagramUrl, string youtubeUrl, Guid userId)
+        public Owner(string name, string phone, string email, string facebookUrl, string twitterUrl, string instagramUrl, string youtubeUrl, Guid userId)
         {
-            OwnerId = ownerId;
+            OwnerId = Guid.NewGuid();
             Name = name;
             Phone = phone;
             Email = email;

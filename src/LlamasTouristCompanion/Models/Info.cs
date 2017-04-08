@@ -19,5 +19,14 @@ namespace LlamasTouristCompanion.Models
         public string Description { get; set; }
 
         public virtual Location Location { get; set; }
+
+        public Info(string type, Guid locationId, string name, string description)
+        {
+            InfoId = Guid.NewGuid();
+            Type = type;
+            LocationId = locationId;
+            Name = name;
+            Description = description;
+        }
     }
 }
