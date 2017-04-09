@@ -41,8 +41,8 @@ namespace LlamasTouristCompanion.Controllers
             if (ModelState.IsValid)
             {
                 var user = await GetActiveUserId();
-                var owner = await _ownerService.GetOwnerByUserIdAsync(user.ToString());
-                await _apartmentService.AddAsync(model, owner.OwnerId.ToString());
+                //var owner = await _ownerService.GetOwnerByUserIdAsync(user.ToString());
+                await _apartmentService.AddAsync(model, user.ToString());
 
                 return RedirectToAction("Index", "Owner");
             }
