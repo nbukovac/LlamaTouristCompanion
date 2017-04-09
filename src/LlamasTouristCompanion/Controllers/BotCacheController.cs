@@ -19,7 +19,7 @@ namespace LlamasTouristCompanion.Controllers
 
 
         private const double DegreeToKm = 111.12;
-        private const double Radius = 10;
+        private const double Radius = 50;
 
         public BotCacheController(IBotCacheService botCacheService, ILocationService locationService,
             IApartmentService apartmentService, IEventService eventService, IInfoService infoService)
@@ -82,7 +82,8 @@ namespace LlamasTouristCompanion.Controllers
             {
                 var apartmentLocation = _locationService.GetById(apartment.LocationId.ToString());
                 var inRadius = Math.Pow((location.Latitude - apartmentLocation.Latitude) * DegreeToKm, 2)
-                    + Math.Pow((location.Longitude - apartmentLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+                    + Math.Pow((location.Longitude - apartmentLocation.Longitude) * DegreeToKm, 2) <= 
+                    Math.Pow(Radius, 2);
 
                 if (inRadius)
                 {
@@ -102,7 +103,7 @@ namespace LlamasTouristCompanion.Controllers
             {
                 var eventLocation = _locationService.GetById(e.LocationId.ToString());
                 var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
-                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+                    + Math.Pow((location.Longitude - eventLocation.Longitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
 
                 if (inRadius)
                 {
@@ -122,7 +123,7 @@ namespace LlamasTouristCompanion.Controllers
             {
                 var eventLocation = _locationService.GetById(info.LocationId.ToString());
                 var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
-                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+                    + Math.Pow((location.Longitude - eventLocation.Longitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
 
                 if (inRadius)
                 {
