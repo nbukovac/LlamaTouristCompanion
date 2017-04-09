@@ -1,4 +1,4 @@
 # LlamaTouristCompanion
-Coding Llamas 
+Coding Llamas
 
-#http://apartmanko.azurewebsites.net
+# http://apartmanko.azurewebsites.net
