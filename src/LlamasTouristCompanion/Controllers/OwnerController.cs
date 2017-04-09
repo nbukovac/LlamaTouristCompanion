@@ -28,9 +28,13 @@ namespace LlamasTouristCompanion.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string ownerId)
+        public async Task<IActionResult> Index()
         {
-            return View(await _ownerService.GetOwnersApartments(ownerId));
+            var user = await GetActiveUserId();
+            Owner owner = await _ownerService.GetOwnerByUserIdAsync(user.ToString());
+            List<Apartment> apartments = await _ownerService.GetOwnersApartments(owner.OwnerId.ToString());
+            ViewBag.Apartments = apartments;
+            return View(owner);
         }
 
         [HttpGet]
