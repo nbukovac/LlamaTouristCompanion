@@ -14,15 +14,21 @@ namespace LlamasTouristCompanion.Controllers
         private readonly IBotCacheService _botCacheService;
         private readonly ILocationService _locationService;
         private readonly IApartmentService _apartmentService;
+        private readonly IEventService _eventService;
+        private readonly IInfoService _infoService;
+
+
         private const double DegreeToKm = 111.12;
         private const double Radius = 10;
 
         public BotCacheController(IBotCacheService botCacheService, ILocationService locationService,
-            IApartmentService apartmentService)
+            IApartmentService apartmentService, IEventService eventService, IInfoService infoService)
         {
             _botCacheService = botCacheService;
             _locationService = locationService;
             _apartmentService = apartmentService;
+            _eventService = eventService;
+            _infoService = infoService;
         }
 
         [HttpGet]
@@ -43,12 +49,23 @@ namespace LlamasTouristCompanion.Controllers
             return await GetApartmentsAsync(location);
         }
 
+        [HttpGet("{location}", Name = "GetEvents")]
+        public async Task<List<Event>> GetLocationEventsAsync(LocationApi location)
+        {
+            return await GetEventsAsync(location);
+        }
+
+        [HttpGet("{location}", Name = "GetInfos")]
+        public async Task<List<Info>> GetLocationInfoAsync(LocationApi location)
+        {
+            return await GetInfoAsync(location);
+        }
+
         [HttpGet(Name = "FillMe")]
         public IActionResult FillMe()
         {
             return Ok();
         }
-
 
         private async Task<List<Apartment>> GetApartmentsAsync(LocationApi location)
         {
@@ -64,6 +81,46 @@ namespace LlamasTouristCompanion.Controllers
                 if (inRadius)
                 {
                     nearby.Add(apartment);
+                }
+            }
+
+            return nearby;
+        }
+
+        private async Task<List<Event>> GetEventsAsync(LocationApi location)
+        {
+            List<Event> events = await _eventService.GetAll();
+            List<Event> nearby = new List<Event>();
+
+            foreach (var e in events)
+            {
+                var eventLocation = _locationService.GetById(e.LocationId.ToString());
+                var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
+                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+
+                if (inRadius)
+                {
+                    nearby.Add(e);
+                }
+            }
+
+            return nearby;
+        }
+
+        private async Task<List<Info>> GetInfoAsync(LocationApi location)
+        {
+            List<Info> infos = await _infoService.GetAll();
+            List<Info> nearby = new List<Info>();
+
+            foreach (var info in infos)
+            {
+                var eventLocation = _locationService.GetById(info.LocationId.ToString());
+                var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
+                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+
+                if (inRadius)
+                {
+                    nearby.Add(info);
                 }
             }
 
