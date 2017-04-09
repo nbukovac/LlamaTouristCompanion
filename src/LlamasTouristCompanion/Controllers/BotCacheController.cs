@@ -19,7 +19,7 @@ namespace LlamasTouristCompanion.Controllers
 
 
         private const double DegreeToKm = 111.12;
-        private const double Radius = 10;
+        private const double Radius = 50;
 
         public BotCacheController(IBotCacheService botCacheService, ILocationService locationService,
             IApartmentService apartmentService, IEventService eventService, IInfoService infoService)
@@ -31,36 +31,42 @@ namespace LlamasTouristCompanion.Controllers
             _infoService = infoService;
         }
 
+        [Route("bot")]
         [HttpGet]
         public async Task<IEnumerable<BotCache>> Get()
         {
             return await _botCacheService.GetAll();
         }
 
+        [Route("answers")]
         [HttpGet("{tokens}", Name = "GetAnswers")]
         public async Task<List<BotCache>> GetAnswers(BotCacheTokens tokens)
         {
             return await _botCacheService.FilterTokensAsync(tokens.Tokens, tokens.ApartmentId);
         }
 
+        [Route("apartments")]
         [HttpGet("{location}", Name = "GetApartments")]
         public async Task<List<Apartment>> GetLocationApartmentsAsync(LocationApi location)
         {
             return await GetApartmentsAsync(location);
         }
 
+        [Route("events")]
         [HttpGet("{location}", Name = "GetEvents")]
         public async Task<List<Event>> GetLocationEventsAsync(LocationApi location)
         {
             return await GetEventsAsync(location);
         }
 
+        [Route("info")]
         [HttpGet("{location}", Name = "GetInfos")]
         public async Task<List<Info>> GetLocationInfoAsync(LocationApi location)
         {
             return await GetInfoAsync(location);
         }
 
+        [Route("fill")]
         [HttpGet(Name = "FillMe")]
         public IActionResult FillMe()
         {
@@ -76,7 +82,8 @@ namespace LlamasTouristCompanion.Controllers
             {
                 var apartmentLocation = _locationService.GetById(apartment.LocationId.ToString());
                 var inRadius = Math.Pow((location.Latitude - apartmentLocation.Latitude) * DegreeToKm, 2)
-                    + Math.Pow((location.Longitude - apartmentLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+                    + Math.Pow((location.Longitude - apartmentLocation.Longitude) * DegreeToKm, 2) <= 
+                    Math.Pow(Radius, 2);
 
                 if (inRadius)
                 {
@@ -96,7 +103,7 @@ namespace LlamasTouristCompanion.Controllers
             {
                 var eventLocation = _locationService.GetById(e.LocationId.ToString());
                 var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
-                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+                    + Math.Pow((location.Longitude - eventLocation.Longitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
 
                 if (inRadius)
                 {
@@ -116,7 +123,7 @@ namespace LlamasTouristCompanion.Controllers
             {
                 var eventLocation = _locationService.GetById(info.LocationId.ToString());
                 var inRadius = Math.Pow((location.Latitude - eventLocation.Latitude) * DegreeToKm, 2)
-                    + Math.Pow((location.Longitude - eventLocation.Latitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
+                    + Math.Pow((location.Longitude - eventLocation.Longitude) * DegreeToKm, 2) < Math.Pow(Radius, 2);
 
                 if (inRadius)
                 {
