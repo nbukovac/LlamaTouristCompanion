@@ -23,7 +23,7 @@ namespace LlamasTouristCompanion.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=aspnet-LlamasTouristCompanion-3fe91d90-5ea8-4b23-93f3-73487c3a9cfc;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("Server=tcp:apartmanko.database.windows.net,1433;Initial Catalog=apartmanko;Persist Security Info=False;User ID=nikola;Password=#1Webapp;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         }
 
         public DbSet<Apartment> Apartments { get; set; }

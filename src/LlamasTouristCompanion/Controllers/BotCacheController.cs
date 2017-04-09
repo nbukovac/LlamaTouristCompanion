@@ -31,36 +31,42 @@ namespace LlamasTouristCompanion.Controllers
             _infoService = infoService;
         }
 
+        [Route("bot")]
         [HttpGet]
         public async Task<IEnumerable<BotCache>> Get()
         {
             return await _botCacheService.GetAll();
         }
 
+        [Route("answers")]
         [HttpGet("{tokens}", Name = "GetAnswers")]
         public async Task<List<BotCache>> GetAnswers(BotCacheTokens tokens)
         {
             return await _botCacheService.FilterTokensAsync(tokens.Tokens, tokens.ApartmentId);
         }
 
+        [Route("apartments")]
         [HttpGet("{location}", Name = "GetApartments")]
         public async Task<List<Apartment>> GetLocationApartmentsAsync(LocationApi location)
         {
             return await GetApartmentsAsync(location);
         }
 
+        [Route("events")]
         [HttpGet("{location}", Name = "GetEvents")]
         public async Task<List<Event>> GetLocationEventsAsync(LocationApi location)
         {
             return await GetEventsAsync(location);
         }
 
+        [Route("info")]
         [HttpGet("{location}", Name = "GetInfos")]
         public async Task<List<Info>> GetLocationInfoAsync(LocationApi location)
         {
             return await GetInfoAsync(location);
         }
 
+        [Route("fill")]
         [HttpGet(Name = "FillMe")]
         public IActionResult FillMe()
         {
