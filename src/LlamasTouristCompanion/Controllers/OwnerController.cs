@@ -40,7 +40,7 @@ namespace LlamasTouristCompanion.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(AddOwnerViewModel model)
+        public async Task<IActionResult> Create(AddOwnerViewModel model)
         {
             if (ModelState.IsValid)
             {

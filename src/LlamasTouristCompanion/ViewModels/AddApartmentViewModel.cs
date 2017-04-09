@@ -11,7 +11,6 @@ namespace LlamasTouristCompanion.ViewModels
         public string Name { get; set; }
         [Required]
         public Guid LocationId { get; set; }
-        [Required]
         public string Images { get; set; }
         [Required]
         public string Address { get; set; }
@@ -21,10 +20,10 @@ namespace LlamasTouristCompanion.ViewModels
         public DateTime CheckOut { get; set; }
 
         public AddApartmentViewModel(string images, string address, string utilities, 
-            DateTime checkIn, DateTime checkOut, string locationId, string name)
+            DateTime checkIn, DateTime checkOut, Guid locationId, string name)
         {
             Name = name;
-            LocationId = Guid.Parse(locationId);
+            LocationId = locationId;
             Address = address;
             Utilities = utilities;
             CheckIn = checkIn;

@@ -51,7 +51,8 @@ namespace LlamasTouristCompanion.Models
             ApartmentId = Guid.NewGuid();
             Name = model.Name;
             LocationId = model.LocationId;
-            Images = model.Images;
+            Images = "burek";
+            Address = model.Address;
             OwnerId = ownerId;
             Utilities = model.Utilities;
             CheckIn = model.CheckIn;
