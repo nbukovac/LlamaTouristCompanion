@@ -140,6 +140,7 @@
     <Compile Include="Models\GoogleNaturalLanguageOutputEntities.cs" />
     <Compile Include="Models\GoogleNaturalLanguageOutputSyntax.cs" />
     <Compile Include="Models\GoogleTranslationApiModel.cs" />
+    <Compile Include="Models\Languages.cs" />
     <Compile Include="Models\LanguageSelection.cs" />
     <Compile Include="Models\LocationSelection.cs" />
     <Compile Include="Models\NaturalLanguagePostRequestcs.cs" />

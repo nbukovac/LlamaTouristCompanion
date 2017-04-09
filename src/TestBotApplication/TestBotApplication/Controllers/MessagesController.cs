@@ -56,7 +56,7 @@ namespace TestBotApplication
 
 
 
-                    var tokenizedText = googleApi.SentanceDetect(GetTextInEng(activity.Text, dbContext, userSelectedLanguage));
+                    var tokenizedText = googleApi.SentanceDetect(GetTextInEng(activity.Text, userSelectedLanguage));
                     Activity reply = activity.CreateReply($"{tokenizedText}");
                     await connector.Conversations.ReplyToActivityAsync(reply);
                 }
@@ -115,26 +115,28 @@ namespace TestBotApplication
             return null;
         }
 
-        private string GetTextInEng(string text, Model1 context, string userSelectedLanguage)
+        private string GetTextInEng(string text, string userSelectedLanguage)
         {
             var googleApi = new GoogleTranslateService();
+            var languages = new LanguagesDict();
             var parsedLanguageTag = Convert.ToInt32(userSelectedLanguage);
-            var selectedLanguage = context.Languages.FirstOrDefault(x => x.Id == parsedLanguageTag);
+            var selectedLanguage = languages.LanguageCodes[parsedLanguageTag];
             string textinEn = text;
-            if (selectedLanguage.Code != "en")
-                textinEn = googleApi.TranslateToEnglish(text, selectedLanguage.Code.Trim());
+            if (selectedLanguage != "en")
+                textinEn = googleApi.TranslateToEnglish(text, selectedLanguage);
 
             return textinEn;
         }
 
-        private string GetTextInSelectedLanguage(string text, Model1 context, string userSelectedLanguage)
+        private string GetTextInSelectedLanguage(string text,  string userSelectedLanguage)
         {
             var googleApi = new GoogleTranslateService();
+            var languages = new LanguagesDict();
             var parsedLanguageTag = Convert.ToInt32(userSelectedLanguage);
-            var selectedLanguage = context.Languages.FirstOrDefault(x => x.Id == parsedLanguageTag);
+            var selectedLanguage = languages.LanguageCodes[parsedLanguageTag];
             string textinEn = text;
-            if (selectedLanguage.Code != "en")
-                textinEn = googleApi.TranslateToEnglish(text, selectedLanguage.Code.Trim());
+            if (selectedLanguage != "en")
+                textinEn = googleApi.TranslateToEnglish(text, selectedLanguage);
 
             return textinEn;
         }
