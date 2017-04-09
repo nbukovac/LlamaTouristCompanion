@@ -39,6 +39,8 @@ namespace TestBotApplication
                 BotData userData = sc.BotState.GetPrivateConversationData(activity.ChannelId, activity.Conversation.Id, activity.From.Id);
                 var userSelectedLanguage = userData.GetProperty<string>("Language");
                 var userSelectedCity = userData.GetProperty<string>("City");
+               
+                var guid = userData.GetProperty<string>("ApartmantId");
                 if (string.IsNullOrEmpty(userSelectedLanguage))
                 {
                     await Conversation.SendAsync(activity, MakeRootDialog);
@@ -53,25 +55,80 @@ namespace TestBotApplication
                     var userAddress = userData.GetProperty<string>("Address");
                     var googleApi = new GoogleTranslateService();
                     var location = googleApi.GetLocationFromAddress(userAddress + "," + userCity);
+                    var administrationService = new AdministrationService();
+                    var possibleLocations =  administrationService.GetPossibleLocations(location);
+                    if (possibleLocations.FirstOrDefault(x => x.ApartmentId.ToString() == activity.Text) == null && string.IsNullOrEmpty(guid))
+                    {
+                        if (possibleLocations.Count > 0)
+                        {
+                            userData.SetProperty<string>("ApartmantId", "IdComming");
+                            sc.BotState.SetPrivateConversationData(activity.ChannelId, activity.Conversation.Id, activity.From.Id, userData);
 
+                            Activity replyToConversation = activity.CreateReply(GetTextInSelectedLanguage("Please select your place", userSelectedLanguage));
+                            replyToConversation.Recipient = activity.From;
+                            replyToConversation.Type = "message";
+                            replyToConversation.Attachments = new List<Attachment>();
 
+                            List<CardAction> cardButtons = new List<CardAction>();
+                            foreach (var button in possibleLocations)
+                            {
+                                CardAction plButton = new CardAction()
+                                {
+                                    Value = button.ApartmentId.ToString(),
+                                    Type = "imBack",
+                                    Title = button.Name
+                                };
+                                cardButtons.Add(plButton);
+                            }
 
-                    var tokenizedText = googleApi.SentanceDetect(GetTextInEng(activity.Text, userSelectedLanguage));
-                    Activity reply = activity.CreateReply($"{tokenizedText}");
-                    await connector.Conversations.ReplyToActivityAsync(reply);
+                            HeroCard plCard = new HeroCard()
+                            {
+                                Title = GetTextInSelectedLanguage("Press the button with your accomodation", userSelectedLanguage),
+                                Buttons = cardButtons
+                            };
+                            Attachment plAttachment = plCard.ToAttachment();
+                            replyToConversation.Attachments.Add(plAttachment);
+                            await connector.Conversations.SendToConversationAsync(replyToConversation);
+
+                           
+                            await sc.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);                      
+                        }
+                        else
+                        {
+                            var responseText = GetTextInSelectedLanguage("Sorry, havn't found anything. Try again", userSelectedLanguage);
+                            Activity replyToSelectedApartmen = activity.CreateReply($"{responseText}");
+                            await connector.Conversations.ReplyToActivityAsync(replyToSelectedApartmen);
+                        }
+                    }
+                    else if (guid == "IdComming")
+                    {
+                        userData.SetProperty<string>("ApartmantId", activity.Text);
+                        guid = activity.Text;
+                        sc.BotState.SetPrivateConversationData(activity.ChannelId, activity.Conversation.Id, activity.From.Id, userData);
+                        //    await sc.BotState.SetUserDataAsync(activity.ChannelId, activity.From.Id, userData);
+                        var responseText = GetTextInSelectedLanguage("Go ahed and ask me something", userSelectedLanguage);
+                        Activity replyToSelectedApartmen = activity.CreateReply($"{responseText}");
+                        await connector.Conversations.ReplyToActivityAsync(replyToSelectedApartmen);
+                    }
+                    else
+                    {
+                        var tokenizedText = googleApi.SentanceDetect(GetTextInEng(activity.Text, userSelectedLanguage));
+                        var resText = administrationService.GetResponeseToQuery(tokenizedText, guid);
+                        if (resText != null)
+                        {
+                            Activity reply = activity.CreateReply($"{resText.Answer}");
+                            await connector.Conversations.ReplyToActivityAsync(reply);
+                        }
+                        else
+                        {
+                            var responseText = GetTextInSelectedLanguage("Sorry, have not found anything. Try again", userSelectedLanguage);
+                            Activity reply = activity.CreateReply($"{responseText}");
+                            await connector.Conversations.ReplyToActivityAsync(reply);
+                        }
+                            
+                    }
+                   
                 }
-                // calculate something for us to return
-
-
-                //var googleTranslateService = new GoogleTranslateService();
-                //var translatedToEngString = googleTranslateService.TranslateToEnglish(activity.Text, selectedLanguage);
-                //// return our reply to the user
-
-                //Activity reply1 = activity.CreateReply($"{translatedToEngString}");
-
-                //// Activity reply = activity.CreateReply($"You sent {activity.Text} which was {length} characters");
-                //
-
             }
             else
             {
@@ -115,6 +172,7 @@ namespace TestBotApplication
             return null;
         }
 
+
         private string GetTextInEng(string text, string userSelectedLanguage)
         {
             var googleApi = new GoogleTranslateService();
@@ -128,7 +186,7 @@ namespace TestBotApplication
             return textinEn;
         }
 
-        private string GetTextInSelectedLanguage(string text,  string userSelectedLanguage)
+        private string GetTextInSelectedLanguage(string text, string userSelectedLanguage)
         {
             var googleApi = new GoogleTranslateService();
             var languages = new LanguagesDict();
@@ -136,7 +194,7 @@ namespace TestBotApplication
             var selectedLanguage = languages.LanguageCodes[parsedLanguageTag];
             string textinEn = text;
             if (selectedLanguage != "en")
-                textinEn = googleApi.TranslateToEnglish(text, selectedLanguage);
+                textinEn = googleApi.TranslateToSelectedLanguage(text, selectedLanguage);
 
             return textinEn;
         }

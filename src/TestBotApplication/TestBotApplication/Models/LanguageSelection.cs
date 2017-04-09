@@ -72,8 +72,8 @@ namespace TestBotApplication.Models
     }
     public enum LanguageOptions
     {
-        Hrvatski = 1,
-        Engleski = 2,
-        Njemački = 3
+        Croatian = 1,
+        English = 2,
+        German = 3
     };
 }

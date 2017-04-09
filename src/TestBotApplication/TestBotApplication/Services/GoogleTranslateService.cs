@@ -60,12 +60,12 @@ namespace TestBotApplication.Services
             using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
             {
                 var httpContent = new StringContent(JsonConvert.SerializeObject(obj), Encoding.UTF8, "application/json");
-
+                client.Timeout = new TimeSpan(0, 0, 60);
                 HttpResponseMessage googleApiSytaxResponse = client.PostAsync("https://language.googleapis.com/v1/documents:analyzeSyntax?key=" + googleNaturalLanguageApiKey, httpContent).Result;
                 googleApiSytaxResponse.EnsureSuccessStatusCode();
                 var resultSytax = JsonConvert.DeserializeObject<GoogleNaturalLanguageOutputSyntax>(googleApiSytaxResponse.Content.ReadAsStringAsync().Result);
 
-                var data = JsonConvert.SerializeObject(resultSytax.tokens.Where(x => x.lemma.Length >= 3).Select(x => x.lemma).ToList());
+                var data = string.Join(",", resultSytax.tokens.Where(x => x.lemma.Length >= 3).Select(x => x.lemma).ToList());
                 return data;
             }
         }
@@ -77,6 +77,7 @@ namespace TestBotApplication.Services
             using (var client = new HttpClient(new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate }))
             {
                 client.BaseAddress = new Uri("https://maps.googleapis.com/maps/api/geocode/");
+                client.Timeout = new TimeSpan(0, 0, 60);
                 HttpResponseMessage googleApiResponse = client.GetAsync("json?address=" + address + "&key="+ googleMapsApiKey).Result;
                 googleApiResponse.EnsureSuccessStatusCode();
                 var result = JsonConvert.DeserializeObject<GoogleMapLocationModel>(googleApiResponse.Content.ReadAsStringAsync().Result);
