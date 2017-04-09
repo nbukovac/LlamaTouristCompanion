@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using LlamasTouristCompanion.Models;
 using LlamasTouristCompanion.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace LlamasTouristCompanion.Controllers
 {
@@ -16,18 +17,21 @@ namespace LlamasTouristCompanion.Controllers
         private readonly IApartmentService _apartmentService;
         private readonly IOwnerService _ownerService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILocationService _locationService;
 
         public ApartmentController(IApartmentService apartmentService, IOwnerService ownerService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, ILocationService locationService)
         {
             _apartmentService = apartmentService;
             _ownerService = ownerService;
             _userManager = userManager;
+            _locationService = locationService;
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.LocationId = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View();
         }
 
@@ -43,17 +47,19 @@ namespace LlamasTouristCompanion.Controllers
                 return RedirectToAction("Index", "Owner");
             }
 
+            ViewBag.LocationId = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View(model);
         }
 
         [HttpGet]
-        public IActionResult Edit(string id)
+        public async Task<IActionResult> Edit(string id)
         {
+            ViewBag.LocationId = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View(_apartmentService.GetById(id));
         }
 
         [HttpPost]
-        public IActionResult Edit(Apartment apartment)
+        public async Task<IActionResult> Edit(Apartment apartment)
         {
             if (ModelState.IsValid)
             {
@@ -61,6 +67,7 @@ namespace LlamasTouristCompanion.Controllers
                 return RedirectToAction("Index", "Owner");
             }
 
+            ViewBag.LocationId = new SelectList(await _locationService.GetAll(), "LocationId", "Address");
             return View(apartment);
         }
 
